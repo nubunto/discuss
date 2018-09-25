@@ -14,6 +14,12 @@ defmodule Discuss.AuthController do
         signin(conn, changeset)
     end
 
+    def signout(conn, _params) do
+        conn
+        |> configure_session(drop: true)
+        |> redirect(to: topic_path(conn, :index))
+    end
+
     defp signin(conn, changeset) do
         case Repo.insert(changeset) do
             {:ok, user} ->
@@ -34,4 +40,5 @@ defmodule Discuss.AuthController do
                 |> redirect(to: topic_path(conn, :index))
         end
     end
+
 end
